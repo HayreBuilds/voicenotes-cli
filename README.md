@@ -147,3 +147,21 @@ alias vns="vnote search"
 # Morning brain dump
 alias morning="vnote record"
 ```
+
+## Keyboard Shortcuts
+
+When recording:
+- `ENTER` — stop recording and transcribe
+- `Ctrl+C` — cancel recording (no note saved)
+
+## Automations
+
+```bash
+# Add to .bashrc/.zshrc for quick access
+alias vn="vnote"
+alias vnl="vnote list"
+alias vns="vnote search"
+
+# Morning brain dump
+alias morning="vnote record"
+```
