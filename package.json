@@ -1,0 +1,46 @@
+{
+  "name": "voicenotes-cli",
+  "version": "1.0.0",
+  "description": "Terminal voice notes with AI transcription. Press to record, release to save. Transcribed, summarized, tagged, searchable markdown.",
+  "bin": {
+    "vnote": "./dist/index.js"
+  },
+  "main": "./dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "ts-node src/index.ts",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "voice",
+    "notes",
+    "transcription",
+    "cli",
+    "ai",
+    "nvidia",
+    "nim",
+    "markdown",
+    "parakeet",
+    "asr",
+    "speech-to-text",
+    "nvida",
+    "notes-app"
+  ],
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.5.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/voicenotes-cli"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/voicenotes-cli/issues"
+  }
+}
