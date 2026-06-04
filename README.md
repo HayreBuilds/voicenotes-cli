@@ -1,167 +1,108 @@
-# voicenotes-cli
+# 🎙️ voicenotes-cli
 
-> Terminal voice notes with AI transcription. Press ENTER to record, press ENTER again to stop. The note is transcribed, titled, tagged, and saved to a local markdown file automatically.
+[![Build Status](https://img.shields.io/github/actions/workflow/status/HayreBuilds/voicenotes-cli/ci.yml?branch=main)](https://github.com/HayreBuilds/voicenotes-cli/actions)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![NVIDIA NIM](https://img.shields.io/badge/NVIDIA-NIM-76B900?logo=nvidia&logoColor=white)](https://build.nvidia.com)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/HayreBuilds/voicenotes-cli/pulls)
 
-```
-$ vnote
+**Terminal voice notes with AI transcription. Speak, transcribe, title, and tag—all from your CLI.**
 
-  ◆ vnote
-
-  → Recording with sox — press ENTER to stop
-
-  ● Recording...
-
-  ✔ Recorded 23.4s of audio
-  → Transcribing with NVIDIA Parakeet ASR...
-  ✔ Transcript: Need to follow up with the design team about the onboarding...
-  → Generating title, summary, and tags...
-  ✔ Title: Design Team Onboarding Follow-up
-  ✔ Tags: #design #onboarding #followup #meeting
-
-  ◆ Note saved! ID: 4af2b9
-  → ~/voice-notes/2025-01-14-design-team-onboarding-follow-up-4af2b9.md
-```
+> Think faster than you type? **voicenotes-cli** captures your thoughts via voice, transcribes them using NVIDIA Parakeet ASR, and generates a structured Markdown note with AI-powered summaries and tags.
 
 ---
 
-## Install
-
-```bash
-npm install -g voicenotes-cli
-# Command available as: vnote
-```
-
-**Requires:** `sox`, `arecord` (Linux), or `ffmpeg` for audio recording
-
-```bash
-# macOS
-brew install sox
-
-# Ubuntu/Debian
-sudo apt install sox
-
-# Any OS (fallback)
-brew install ffmpeg  # or your package manager
-```
-
-**Get your free NVIDIA API key:** [build.nvidia.com](https://build.nvidia.com)
-
-## Usage
+## 🚀 Quick Start
 
 ```bash
 # Record a new voice note
-vnote
-vnote record
+npx vnote
+```
 
-# List all notes
+1. Press **ENTER** to start recording.
+2. Speak your thoughts.
+3. Press **ENTER** again to stop and transcribe.
+4. Your note is saved to `~/voice-notes/`.
+
+---
+
+## ✨ Key Features
+
+- **🎙️ Instant Recording**: Cross-platform support for `sox`, `arecord`, or `ffmpeg`.
+- **✍️ AI Transcription**: Uses `nvidia/parakeet-ctc-0.6b-asr` for high-accuracy speech-to-text.
+- **🏷️ Auto-Tagging**: Nemotron-Ultra automatically generates titles, summaries, and relevant tags.
+- **🔍 Semantic Search**: Instantly find notes by searching for keywords or tags.
+- **📂 Local-First Storage**: Notes are saved as clean Markdown files with YAML frontmatter.
+- **⚡ Zero Setup**: No local LLM required. Uses free NVIDIA NIM endpoints.
+
+---
+
+## 💻 Installation
+
+```bash
+npm install -g voicenotes-cli
+```
+
+### System Dependencies
+- **macOS**: `brew install sox`
+- **Linux**: `sudo apt install sox` (or `ffmpeg`)
+
+---
+
+## 🛠️ Usage Examples
+
+### Record & Transcribe
+```bash
+vnote record
+```
+
+### Search Your Notes
+```bash
+vnote search "onboarding"
+vnote search #design
+```
+
+### List & Open
+```bash
+# List last 10 notes
 vnote list
 
-# Search notes
-vnote search meeting
-vnote search "project alpha"
-vnote search design
-
-# Read a full note
+# Open a specific note in your default editor
 vnote open 4af2b9
-
-# Delete a note
-vnote delete 4af2b9
-
-# Print notes directory
-vnote dir
 ```
 
-## How It Works
-
-1. **Record** — uses `sox`, `arecord`, or `ffmpeg` to capture audio (16kHz mono WAV)
-2. **Transcribe** — sends audio to `nvidia/parakeet-ctc-0.6b-asr` (free NVIDIA NIM endpoint)
-3. **Summarize** — sends transcript to Nemotron-Ultra to generate title, summary, and tags
-4. **Save** — writes a Markdown file with YAML frontmatter to `~/voice-notes/`
-
-## Note Format
-
-Each note is saved as a Markdown file:
-
-```markdown
----
-id: 4af2b9
-title: "Design Team Onboarding Follow-up"
-date: 2025-01-14T14:32:01.000Z
-tags: ["design", "onboarding", "followup", "meeting"]
-duration: 23.4s
 ---
 
-# Design Team Onboarding Follow-up
+## 🔍 How it Works
 
-> Brief summary of the note
+1. **Audio Capture**: Records high-quality mono WAV audio (16kHz).
+2. **ASR Pipeline**: Sends the audio buffer to NVIDIA's Parakeet ASR model.
+3. **LLM Enrichment**: The transcript is processed by `Nemotron-Ultra` to extract metadata.
+4. **Markdown Export**: Generates a file with YAML frontmatter containing the ID, date, tags, and summary.
 
-## Transcript
+---
 
-Need to follow up with the design team about the onboarding flow...
-```
-
-## Notes Directory
-
-Notes are stored in `~/voice-notes/` by default. Override with:
-
-```bash
-export VNOTE_DIR=/path/to/my/notes
-```
-
-Files are named `YYYY-MM-DD-title-slug-id.md`.
-
-## Options
+## ⚙️ Configuration Options
 
 | Flag | Description |
-|------|-------------|
+|:---|:---|
 | `--api-key <key>` | NVIDIA NIM API key (or `NVIDIA_API_KEY` env var) |
-| `--no-summary` | Skip AI processing, save raw recording only |
+| `--no-summary` | Skip AI processing and save the raw transcript only |
+| `--dir <path>` | Custom directory for storing notes (Default: `~/voice-notes/`) |
 
-## Powered By (free NVIDIA NIM)
+---
 
-- **`nvidia/parakeet-ctc-0.6b-asr`** — NVIDIA's speech-to-text model
-- **`nvidia/nemotron-3-ultra-550b-a55b`** — Generates title, summary, and tags
+## 🤝 Contributing
 
-## Zero Dependencies
+We love contributions! See our [Contributing Guide](CONTRIBUTING.md) to get started.
 
-Only Node.js built-ins. Audio recording uses system tools (sox/arecord/ffmpeg).
+---
 
-## License
+## 📄 License
 
-MIT
+Distributed under the MIT License. See `LICENSE` for more information.
 
-## Keyboard Shortcuts
+---
 
-When recording:
-- `ENTER` — stop recording and transcribe
-- `Ctrl+C` — cancel recording (no note saved)
+## 💖 Star History
 
-## Automations
-
-```bash
-# Add to .bashrc/.zshrc for quick access
-alias vn="vnote"
-alias vnl="vnote list"
-alias vns="vnote search"
-
-# Morning brain dump
-alias morning="vnote record"
-```
-
-## Keyboard Shortcuts
-
-When recording:
-- `ENTER` — stop recording and transcribe
-- `Ctrl+C` — cancel recording (no note saved)
-
-## Automations
-
-```bash
-# Add to .bashrc/.zshrc for quick access
-alias vn="vnote"
-alias vnl="vnote list"
-alias vns="vnote search"
-
-# Morning brain dump
-alias morning="vnote record"
-```
+[![Star History Chart](https://api.star-history.com/svg?repos=HayreBuilds/voicenotes-cli&type=Date)](https://star-history.com/#HayreBuilds/voicenotes-cli&Date)
