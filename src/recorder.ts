@@ -74,3 +74,16 @@ export function startRecordingWithLimit(wavPath: string, recorder: "sox" | "arec
     stop: () => new Promise<void>((resolve) => { proc.on("exit", resolve); proc.kill("SIGTERM"); setTimeout(() => { try { proc.kill("SIGKILL"); } catch {} resolve(); }, 1500); }),
   };
 }
+
+export const MAX_RECORDING_DURATION = 300; // 5 minutes
+
+export function startRecordingWithLimit(wavPath: string, recorder: "sox" | "arecord" | "ffmpeg", maxSeconds = MAX_RECORDING_DURATION): RecordingProcess {
+  // For long recordings, pass duration limit to the recording tool
+  const proc = recorder === "sox"
+    ? require("child_process").spawn("sox", ["-d", "-r", "16000", "-c", "1", "-b", "16", wavPath, "trim", "0", String(maxSeconds)], { stdio: "ignore" })
+    : require("child_process").spawn("arecord", ["-f", "cd", "-r", "16000", `-c`, "1", `--duration=${maxSeconds}`, wavPath], { stdio: "ignore" });
+  return {
+    wavPath,
+    stop: () => new Promise<void>((resolve) => { proc.on("exit", resolve); proc.kill("SIGTERM"); setTimeout(() => { try { proc.kill("SIGKILL"); } catch {} resolve(); }, 1500); }),
+  };
+}
