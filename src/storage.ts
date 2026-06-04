@@ -138,3 +138,12 @@ export function getAllTags(): string[] {
   for (const n of notes) for (const t of n.tags) tags.add(t);
   return [...tags].sort();
 }
+
+export function getNoteStats(): { total: number; totalDuration: number; tags: string[]; oldestDate: string | null; newestDate: string | null } {
+  const notes = loadIndex();
+  if (notes.length === 0) return { total: 0, totalDuration: 0, tags: [], oldestDate: null, newestDate: null };
+  const dates = notes.map(n => n.createdAt).sort();
+  const totalDuration = notes.reduce((s, n) => s + n.duration, 0);
+  const tags = getAllTags();
+  return { total: notes.length, totalDuration, tags, oldestDate: dates[0]!, newestDate: dates[dates.length - 1]! };
+}
