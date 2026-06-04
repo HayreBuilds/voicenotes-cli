@@ -124,3 +124,17 @@ export function getNoteStats(): { total: number; totalDuration: number; tags: st
   const tags = getAllTags();
   return { total: notes.length, totalDuration, tags, oldestDate: dates[0]!, newestDate: dates[dates.length - 1]! };
 }
+
+export function normalizeTags(tags: string[]): string[] {
+  return tags
+    .map(t => t.toLowerCase().replace(/[^a-z0-9-]/g, "-").replace(/-+/g, "-").replace(/^-|-$/g, ""))
+    .filter(t => t.length > 0 && t.length <= 32)
+    .slice(0, 8);
+}
+
+export function getAllTags(): string[] {
+  const notes = loadIndex();
+  const tags = new Set<string>();
+  for (const n of notes) for (const t of n.tags) tags.add(t);
+  return [...tags].sort();
+}
